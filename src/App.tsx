@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import FlowerDetailsPage from './pages/FlowerDetailsPage';
 import NavLayout from './layouts/NavLayout';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/flowers/:id" element={<FlowerDetailsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

@@ -10,7 +10,7 @@ function NotFoundPage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff1f2',
+        backgroundColor: '#ffffff',
       }}
     >
       <Typography
