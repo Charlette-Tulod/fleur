@@ -1,7 +1,13 @@
-import React from 'react';
+import FlowerDetails from '../../components/FlowerDetails';
+import FlowerCategory from '../../components/FlowerCategory';
 
-function FlowerDetailsPage() {
-  return <div>index</div>;
+function HomePage() {
+  return (
+    <>
+      <FlowerDetails />
+      <FlowerCategory />
+    </>
+  );
 }
 
-export default FlowerDetailsPage;
+export default HomePage;
