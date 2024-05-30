@@ -1,7 +1,9 @@
 import { Button, Container, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Background from '../../assets/background.png';
 
 function Banner() {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -62,6 +64,7 @@ function Banner() {
             }}
           >
             <Button
+              onClick={() => navigate('/flowers')}
               variant="contained"
               color="primary"
               sx={{

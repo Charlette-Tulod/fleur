@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Image1 from '../../assets/image1.jpeg';
 import Image2 from '../../assets/image2.jpeg';
 
@@ -9,6 +10,7 @@ interface ImageCardProps {
 }
 
 function ImageCard({ image, title, description }: ImageCardProps) {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -52,6 +54,7 @@ function ImageCard({ image, title, description }: ImageCardProps) {
           {description}
         </Typography>
         <Button
+          onClick={() => navigate('/flowers')}
           variant="contained"
           sx={{
             borderRadius: 10,
