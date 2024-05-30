@@ -14,7 +14,7 @@ export const fetchFlowersByCategory = async (category: string) => {
   return data;
 };
 
-// Function to fetch all flowers (if needed)
+// Function to fetch all flowers
 export const fetchAllFlowers = async () => {
   const { data, error } = await supabase.from('flowers').select('*');
 
@@ -25,8 +25,8 @@ export const fetchAllFlowers = async () => {
   return data;
 };
 
-// Function to fetch a flower by its ID (if needed)
-export const fetchFlowerById = async (id: string) => {
+// Function to fetch a flower by its ID
+export const fetchFlowerById = async (id: string | undefined) => {
   const { data, error } = await supabase
     .from('flowers')
     .select('*')
