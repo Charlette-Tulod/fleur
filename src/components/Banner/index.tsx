@@ -12,7 +12,7 @@ function Banner() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right',
-        height: { xs: 500, sm: 650 },
+        height: { xs: 500, sm: 620 },
       }}
     >
       <Container
