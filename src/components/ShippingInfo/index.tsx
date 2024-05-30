@@ -27,7 +27,7 @@ function ShippingItem({ icon, title, description }: ShippingItemProps) {
 
 function ShippingInfo() {
   return (
-    <Box sx={{ p: 9, backgroundColor: '#ffffff', textAlign: 'center' }}>
+    <Box sx={{ p: 7, backgroundColor: '#ffffff', textAlign: 'center' }}>
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={6} sm={3}>
           <ShippingItem

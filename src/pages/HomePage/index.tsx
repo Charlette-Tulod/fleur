@@ -1,7 +1,7 @@
 import Banner from '../../components/Banner';
 import ShippingInfo from '../../components/ShippingInfo';
 import SubBanner from '../../components/SubBanner';
-import FlowerLists from '../../components/FlowerLists';
+import FlowerCategory from '../../components/FlowerCategory';
 
 function HomePage() {
   return (
@@ -9,7 +9,7 @@ function HomePage() {
       <Banner />
       <ShippingInfo />
       <SubBanner />
-      <FlowerLists />
+      <FlowerCategory />
     </>
   );
 }
