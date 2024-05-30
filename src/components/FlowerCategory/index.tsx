@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Button, Typography, Grid } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import FlowerCard from '../FlowerCard';
 import {
   fetchFlowersByCategory,
@@ -10,9 +11,8 @@ import {
 const categories = ['Bouquets', 'Special Events', 'Vases'];
 
 function FlowerCategory() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    'Bouquets'
-  ); // Default category set to 'Bouquets'
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string>('Bouquets'); // Default category set to 'Bouquets'
   const [showAll, setShowAll] = useState<boolean>(false);
 
   // Query to fetch flowers based on selected category
@@ -22,7 +22,7 @@ function FlowerCategory() {
     error: categoryError,
   } = useQuery({
     queryKey: ['flowers', selectedCategory],
-    queryFn: () => fetchFlowersByCategory(selectedCategory!),
+    queryFn: () => fetchFlowersByCategory(selectedCategory),
     enabled: !!selectedCategory,
   });
 
@@ -37,10 +37,6 @@ function FlowerCategory() {
     enabled: showAll,
   });
 
-  // useEffect(() => {
-  //   fetchFlowersByCategory(selectedCategory!);
-  // }, [selectedCategory]);
-
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
     setShowAll(false);
@@ -48,7 +44,7 @@ function FlowerCategory() {
 
   const handleSeeAllClick = () => {
     setShowAll(true);
-    setSelectedCategory(null);
+    setSelectedCategory('');
   };
 
   if (isCategoryLoading || isAllFlowersLoading)
@@ -57,6 +53,7 @@ function FlowerCategory() {
     return <Typography>Error fetching data</Typography>;
 
   const displayedFlowers = showAll ? allFlowers : flowers;
+  const limitedFlowers = displayedFlowers ? displayedFlowers.slice(0, 4) : [];
 
   return (
     <Box sx={{ p: 3 }} textAlign="center">
@@ -109,14 +106,14 @@ function FlowerCategory() {
           </Button>
         ))}
       </Box>
-      {displayedFlowers && (
+      {limitedFlowers && (
         <Box
           sx={{
             p: { xs: 2, md: 3 }, // Responsive padding
           }}
         >
           <Grid container spacing={5}>
-            {displayedFlowers.map((flower) => (
+            {limitedFlowers.map((flower) => (
               <Grid item xs={12} sm={6} md={3} key={flower.id}>
                 <FlowerCard
                   name={flower.name}
@@ -126,6 +123,23 @@ function FlowerCategory() {
               </Grid>
             ))}
           </Grid>
+          {displayedFlowers && displayedFlowers.length > 4 && (
+            <Button
+              onClick={() => navigate('/flowers')}
+              sx={{
+                mt: 3,
+                borderRadius: 10,
+                color: '#fda4af',
+
+                '&:hover': {
+                  backgroundColor: '#fff1f2',
+                  color: '#fda4af',
+                },
+              }}
+            >
+              See More
+            </Button>
+          )}
         </Box>
       )}
     </Box>
