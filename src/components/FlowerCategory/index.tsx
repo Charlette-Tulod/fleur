@@ -1,41 +1,28 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Typography, Grid } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import FlowerCard from '../FlowerCard';
-import {
-  fetchFlowersByCategory,
-  fetchAllFlowers,
-} from '../../services/flowersSupabaseService';
+import useFlowersByCategory from '../../hooks/flowersHooks/useFlowersByCategory';
+import { useAllFlowers } from '../../hooks/flowersHooks/useAllFlowers';
 
 const categories = ['Bouquets', 'Special Events', 'Vases'];
 
 function FlowerCategory() {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string>('Bouquets'); // Default category set to 'Bouquets'
+  const [selectedCategory, setSelectedCategory] = useState<string>('Bouquets');
   const [showAll, setShowAll] = useState<boolean>(false);
 
-  // Query to fetch flowers based on selected category
   const {
     data: flowers,
     isLoading: isCategoryLoading,
     error: categoryError,
-  } = useQuery({
-    queryKey: ['flowers', selectedCategory],
-    queryFn: () => fetchFlowersByCategory(selectedCategory),
-    enabled: !!selectedCategory,
-  });
+  } = useFlowersByCategory(selectedCategory);
 
-  // Query to fetch all flowers across all categories
   const {
     data: allFlowers,
     isLoading: isAllFlowersLoading,
     error: allFlowersError,
-  } = useQuery({
-    queryKey: ['allFlowers'],
-    queryFn: fetchAllFlowers,
-    enabled: showAll,
-  });
+  } = useAllFlowers();
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -47,10 +34,12 @@ function FlowerCategory() {
     setSelectedCategory('');
   };
 
-  if (isCategoryLoading || isAllFlowersLoading)
+  if (isCategoryLoading || isAllFlowersLoading) {
     return <Typography>Loading...</Typography>;
-  if (categoryError || allFlowersError)
+  }
+  if (categoryError || allFlowersError) {
     return <Typography>Error fetching data</Typography>;
+  }
 
   const displayedFlowers = showAll ? allFlowers : flowers;
   const limitedFlowers = displayedFlowers ? displayedFlowers.slice(0, 4) : [];
@@ -109,7 +98,7 @@ function FlowerCategory() {
       {limitedFlowers && (
         <Box
           sx={{
-            p: { xs: 2, md: 3 }, // Responsive padding
+            p: { xs: 2, md: 3 },
           }}
         >
           <Grid container spacing={5}>
@@ -131,7 +120,6 @@ function FlowerCategory() {
                 mt: 3,
                 borderRadius: 10,
                 color: '#fda4af',
-
                 '&:hover': {
                   backgroundColor: '#fff1f2',
                   color: '#fda4af',

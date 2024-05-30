@@ -1,7 +1,7 @@
 import supabase from '../config/supabaseClient';
 
 // Function to fetch flowers by category
-export const fetchFlowersByCategory = async (category: string) => {
+export const fetchFlowersByCategory = async (category: string | null) => {
   const { data, error } = await supabase
     .from('flowers')
     .select('*')

@@ -1,5 +1,5 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import {
   Typography,
   Container,
@@ -10,21 +10,13 @@ import {
   Button,
   Divider,
 } from '@mui/material';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ShoppingCart, Favorite } from '@mui/icons-material';
-import { fetchFlowerById } from '../../services/flowersSupabaseService';
+import { useFlowerById } from '../../hooks/flowersHooks/useFlowerById';
 
 function FlowerDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
-  const {
-    data: flower,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['flower', id],
-    queryFn: () => fetchFlowerById(id),
-  });
+  const { data: flower, isLoading, isError } = useFlowerById(id);
 
   if (isLoading) {
     return <Typography variant="h4">Loading...</Typography>;
@@ -63,12 +55,6 @@ function FlowerDetailsPage() {
             ₱{flower.price}
           </Typography>
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-            {/* <IconButton aria-label="add to cart">
-              <ShoppingCart />
-            </IconButton>
-            <IconButton aria-label="add to favorites">
-              <Favorite />
-            </IconButton> */}
             <Button
               variant="contained"
               size="small"
