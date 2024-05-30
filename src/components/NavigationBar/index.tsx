@@ -65,7 +65,7 @@ function NavigationBar() {
       <NavLink to="/about" className={activationClass}>
         About Us
       </NavLink>
-      <NavLink to="/faq" className={activationClass}>
+      <NavLink to="/fAQ" className={activationClass}>
         FAQ
       </NavLink>
       <NavLink to="/contact" className={activationClass}>
