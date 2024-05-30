@@ -104,6 +104,7 @@ function AllFlowers() {
         {flowers?.map((flower) => (
           <Grid item xs={12} sm={6} md={3} key={flower.id}>
             <FlowerCard
+              id={flower.id}
               name={flower.name}
               price={flower.price}
               image={flower.image}
