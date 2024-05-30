@@ -1,11 +1,19 @@
-import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import NavLayout from './layouts/NavLayout';
 
-function TestComponent() {
+function App() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<NavLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Route>
+    </Routes>
   );
 }
 
-export default TestComponent;
+export default App;
