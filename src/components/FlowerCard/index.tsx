@@ -5,10 +5,9 @@ import {
   CardMedia,
   Typography,
   Button,
-  IconButton,
   Box,
 } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import { Product } from '../../datas/flowers';
 import { useCart } from '../../hooks/cartHooks/useCart';
 
@@ -64,9 +63,6 @@ function FlowerCard({ product }: FlowerCardProps) {
             >
               Add to Cart
             </Button>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
           </Box>
         </CardContent>
       </Card>
