@@ -145,8 +145,25 @@ function SignUpPage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box
+      sx={{
+        maxWidth: 400,
+        mx: 'auto',
+        mt: 5,
+        p: 3,
+        boxShadow: 2,
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        color="customColors.brown"
+        gutterBottom
+      >
         Sign Up
       </Typography>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
@@ -169,7 +186,15 @@ function SignUpPage() {
           error={!!errors.password}
           helperText={errors.password?.message}
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{
+            mt: 3,
+          }}
+          fullWidth
+        >
           Sign Up
         </Button>
       </form>

@@ -8,7 +8,6 @@ import FlowerDetailsPage from './pages/FlowerDetailsPage';
 import NavLayout from './layouts/NavLayout';
 import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
-import FAQPage from './pages/FAQPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CartPage from './pages/CartPage';
 import SuccessOrder from './pages/SuccessOrder';
@@ -49,8 +48,8 @@ function App() {
         />
         <Route path="/ordersuccess" element={<SuccessOrder />} />
         <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/FAQ" element={<ContactUsPage />} />
-        <Route path="/contact" element={<FAQPage />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />

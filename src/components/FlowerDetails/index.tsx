@@ -51,7 +51,12 @@ function FlowerDetailsPage() {
           sx={{ width: '100%', maxWidth: 350, height: 'auto' }}
         />
         <CardContent sx={{ flex: 1, p: 4 }}>
-          <Typography variant="h4" fontWeight="bold" color="#754328" mb={2}>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            color="customColors.brown"
+            mb={2}
+          >
             {flower.name}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" gutterBottom>

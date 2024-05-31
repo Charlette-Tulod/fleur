@@ -6,6 +6,10 @@ export const SignUpSchema = z.object({
     .string()
     .min(6, { message: 'Password must be at least 6 characters' })
     .max(20, { message: 'Password must be at most 20 characters' }),
+  // name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
+  // phone: z
+  //   .string()
+  //   .min(6, { message: 'Phone number must be at least 6 characters' }),
 });
 
 export const LoginSchema = z.object({

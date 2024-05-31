@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Box, TextField, Button, Typography, Alert } from '@mui/material';
@@ -55,14 +56,30 @@ function LoginPage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box
+      sx={{
+        maxWidth: 400,
+        mx: 'auto',
+        mt: 5,
+        p: 3,
+        boxShadow: 2,
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        color="customColors.brown"
+        gutterBottom
+      >
         Login
       </Typography>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
         <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('email')}
           label="Email"
           fullWidth
@@ -71,7 +88,6 @@ function LoginPage() {
           helperText={errors.email?.message}
         />
         <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('password')}
           label="Password"
           type="password"
@@ -80,7 +96,15 @@ function LoginPage() {
           error={!!errors.password}
           helperText={errors.password?.message}
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{
+            mt: 3,
+          }}
+          fullWidth
+        >
           Login
         </Button>
       </form>
