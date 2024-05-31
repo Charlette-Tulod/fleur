@@ -10,6 +10,8 @@ import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import FAQPage from './pages/FAQPage';
 import NotFoundPage from './pages/NotFoundPage';
+import CartPage from './pages/CartPage';
+import SuccessOrder from './pages/SuccessOrder';
 import useAuth from './hooks/userHooks/useUserAuth';
 import useCartStore from './store/useCartStore';
 import PrivateRoute from './components/PrivateRoute';
@@ -37,6 +39,15 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <CartPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/ordersuccess" element={<SuccessOrder />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/FAQ" element={<ContactUsPage />} />
         <Route path="/contact" element={<FAQPage />} />
