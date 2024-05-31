@@ -5,15 +5,17 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Stack,
   Button,
+  Stack,
   Divider,
 } from '@mui/material';
-import { ShoppingCart, Favorite } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import { useFlowerById } from '../../hooks/flowersHooks/useFlowers';
+import { useCart } from '../../hooks/cartHooks/useCart';
 
 function FlowerDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const { addToCart } = useCart(); // Get addToCart function from useCart hook
 
   const { data: flower, isLoading, isError } = useFlowerById(id || '');
 
@@ -28,6 +30,10 @@ function FlowerDetailsPage() {
   if (isError || !flower) {
     return <Typography variant="h4">Error fetching flower details</Typography>;
   }
+
+  const handleAddToCart = () => {
+    addToCart(flower);
+  };
 
   return (
     <Container maxWidth="md" sx={{ mt: 7, mb: 7 }}>
@@ -63,11 +69,9 @@ function FlowerDetailsPage() {
               variant="contained"
               size="small"
               startIcon={<ShoppingCart />}
+              onClick={handleAddToCart}
             >
               Add to Cart
-            </Button>
-            <Button variant="contained" size="small" startIcon={<Favorite />}>
-              Add to Favorites
             </Button>
           </Stack>
         </CardContent>

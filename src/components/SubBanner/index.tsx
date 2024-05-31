@@ -16,7 +16,7 @@ function ImageCard({ image, title, description }: ImageCardProps) {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: 300, md: 400 }, // Responsive height
+        height: { xs: 300, md: 400 },
         backgroundImage: `url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -25,15 +25,15 @@ function ImageCard({ image, title, description }: ImageCardProps) {
         justifyContent: 'flex-start',
         color: '#fff',
         textAlign: 'left',
-        p: { xs: 2, md: 3 }, // Responsive padding
+        p: { xs: 2, md: 3 },
       }}
     >
       <Box
         sx={{
           position: 'relative',
           zIndex: 1,
-          ml: { xs: 28, md: 30 }, // Responsive left margin
-          maxWidth: { xs: '70%', md: '60%' }, // Responsive max width
+          ml: { xs: 28, md: 30 },
+          maxWidth: { xs: '70%', md: '60%' },
         }}
       >
         <Typography
@@ -41,7 +41,7 @@ function ImageCard({ image, title, description }: ImageCardProps) {
           component="h2"
           color="customColors.brown"
           gutterBottom
-          sx={{ fontSize: { xs: '1.5rem', md: '2.2rem' } }} // Responsive font size
+          sx={{ fontSize: { xs: '1.5rem', md: '2.2rem' } }}
         >
           {title}
         </Typography>
@@ -49,7 +49,7 @@ function ImageCard({ image, title, description }: ImageCardProps) {
           variant="body1"
           color="customColors.brown"
           paragraph
-          sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }} // Responsive font size
+          sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}
         >
           {description}
         </Typography>
@@ -62,8 +62,8 @@ function ImageCard({ image, title, description }: ImageCardProps) {
             '&:hover': {
               backgroundColor: '#fff1f2',
             },
-            fontSize: { xs: '0.75rem', md: '0.75rem' }, // Responsive font size
-            padding: { xs: '0.5rem 1rem', md: '0.75rem 1.5rem' }, // Responsive padding
+            fontSize: { xs: '0.75rem', md: '0.75rem' },
+            padding: { xs: '0.5rem 1rem', md: '0.75rem 1.5rem' },
           }}
         >
           Shop Now
@@ -79,8 +79,8 @@ function ImageDisplay() {
       sx={{
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
-        gap: { xs: 5, md: 10 }, // Responsive gap
-        p: { xs: 2, md: 5 }, // Responsive padding
+        gap: { xs: 5, md: 10 },
+        p: { xs: 2, md: 5 },
       }}
     >
       <ImageCard

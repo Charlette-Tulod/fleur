@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
   Box,
-  InputBase,
   useMediaQuery,
   useTheme,
   Drawer,
@@ -12,12 +11,7 @@ import {
   Badge,
   Button,
 } from '@mui/material';
-import {
-  ShoppingCart,
-  AccountCircle,
-  Search,
-  FavoriteBorder,
-} from '@mui/icons-material';
+import { ShoppingCart, AccountCircle } from '@mui/icons-material';
 import { IoMdMenu } from 'react-icons/io';
 import Logo from '../../assets/logo.png';
 import useUserAuth from '../../hooks/userHooks/useUserAuth';
@@ -44,7 +38,7 @@ function NavigationBar() {
 
   const renderCarts = () => (
     <>
-      <IconButton color="inherit">
+      <IconButton component={Link} to="/cart" color="inherit">
         <Badge
           badgeContent={cart.reduce((acc, item) => acc + item.quantity, 0)}
           color="secondary"
@@ -52,9 +46,7 @@ function NavigationBar() {
           <ShoppingCart />
         </Badge>
       </IconButton>
-      <IconButton color="inherit">
-        <FavoriteBorder />
-      </IconButton>
+
       <IconButton color="inherit">
         <AccountCircle />
       </IconButton>
@@ -83,7 +75,16 @@ function NavigationBar() {
 
   const renderRightNavLinks = () =>
     user ? (
-      <Button onClick={signOut}>Logout</Button>
+      <Button
+        sx={{
+          borderRadius: 20,
+          color: '#000000',
+          boxShadow: 'none',
+        }}
+        onClick={signOut}
+      >
+        Logout
+      </Button>
     ) : (
       <>
         <NavLink to="/login" className={activationClass}>
@@ -122,7 +123,7 @@ function NavigationBar() {
               width: 'auto',
             }}
           >
-            <Box
+            {/* <Box
               sx={{
                 padding: '0 16px',
                 height: '100%',
@@ -142,7 +143,7 @@ function NavigationBar() {
                 paddingLeft: `calc(1em + 32px)`,
                 width: '100%',
               }}
-            />
+            /> */}
           </Box>
 
           <Box sx={{ marginLeft: 'auto', display: { xs: 'none', md: 'flex' } }}>
