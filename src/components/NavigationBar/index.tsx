@@ -10,6 +10,7 @@ import {
   Drawer,
   IconButton,
   Badge,
+  Button,
 } from '@mui/material';
 import {
   ShoppingCart,
@@ -19,8 +20,9 @@ import {
 } from '@mui/icons-material';
 import { IoMdMenu } from 'react-icons/io';
 import Logo from '../../assets/logo.png';
+import useUserAuth from '../../hooks/userHooks/useUserAuth';
+import useCartStore from '../../store/useCartStore';
 
-// Define a type for the activationClass function parameter
 interface ActivationClassProps {
   isActive: boolean;
 }
@@ -28,6 +30,8 @@ function NavigationBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user, signOut } = useUserAuth();
+  const cart = useCartStore((state) => state.cart);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -41,7 +45,10 @@ function NavigationBar() {
   const renderCarts = () => (
     <>
       <IconButton color="inherit">
-        <Badge badgeContent={0} color="secondary">
+        <Badge
+          badgeContent={cart.reduce((acc, item) => acc + item.quantity, 0)}
+          color="secondary"
+        >
           <ShoppingCart />
         </Badge>
       </IconButton>
@@ -74,16 +81,19 @@ function NavigationBar() {
     </>
   );
 
-  const renderRightNavLinks = () => (
-    <>
-      <NavLink to="/login" className={activationClass}>
-        Login
-      </NavLink>
-      <NavLink to="/register" className={activationClass}>
-        Register
-      </NavLink>
-    </>
-  );
+  const renderRightNavLinks = () =>
+    user ? (
+      <Button onClick={signOut}>Logout</Button>
+    ) : (
+      <>
+        <NavLink to="/login" className={activationClass}>
+          Login
+        </NavLink>
+        <NavLink to="/register" className={activationClass}>
+          Register
+        </NavLink>
+      </>
+    );
 
   return (
     <>

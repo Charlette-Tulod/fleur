@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Box, Button, Typography, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FlowerCard from '../FlowerCard';
-import useFlowersByCategory from '../../hooks/flowersHooks/useFlowersByCategory';
-import { useAllFlowers } from '../../hooks/flowersHooks/useAllFlowers';
+import {
+  useAllFlowers,
+  useFlowersByCategory,
+} from '../../hooks/flowersHooks/useFlowers';
 
 const categories = ['Bouquets', 'Special Events', 'Vases'];
 
@@ -13,16 +15,15 @@ function FlowerCategory() {
   const [showAll, setShowAll] = useState<boolean>(false);
 
   const {
-    data: flowers,
-    isLoading: isCategoryLoading,
-    error: categoryError,
-  } = useFlowersByCategory(selectedCategory);
-
-  const {
     data: allFlowers,
     isLoading: isAllFlowersLoading,
     error: allFlowersError,
   } = useAllFlowers();
+  const {
+    data: flowers,
+    isLoading: isCategoryLoading,
+    error: categoryError,
+  } = useFlowersByCategory(selectedCategory);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -104,12 +105,7 @@ function FlowerCategory() {
           <Grid container spacing={5}>
             {limitedFlowers.map((flower) => (
               <Grid item xs={12} sm={6} md={3} key={flower.id}>
-                <FlowerCard
-                  id={flower.id}
-                  name={flower.name}
-                  price={flower.price}
-                  image={flower.image}
-                />
+                <FlowerCard product={flower} />
               </Grid>
             ))}
           </Grid>

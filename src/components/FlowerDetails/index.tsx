@@ -10,12 +10,16 @@ import {
   Divider,
 } from '@mui/material';
 import { ShoppingCart, Favorite } from '@mui/icons-material';
-import { useFlowerById } from '../../hooks/flowersHooks/useFlowerById';
+import { useFlowerById } from '../../hooks/flowersHooks/useFlowers';
 
 function FlowerDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
-  const { data: flower, isLoading, isError } = useFlowerById(id);
+  const { data: flower, isLoading, isError } = useFlowerById(id || '');
+
+  if (!id) {
+    return <Typography variant="h4">Invalid flower ID</Typography>;
+  }
 
   if (isLoading) {
     return <Typography variant="h4">Loading...</Typography>;
@@ -30,7 +34,8 @@ function FlowerDetailsPage() {
       <Card
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row', alignItems: 'center' },
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: 'center',
         }}
       >
         <CardMedia

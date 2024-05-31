@@ -1,31 +1,57 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Box, TextField, Button, Typography, Alert } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { TextField, Button, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const schema = z.object({
-  emailOrUsername: z.string().min(1, 'Email or Username is required'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-type LoginFormInputs = z.infer<typeof schema>;
+import supabase from '../../config/supabaseClient';
+import { useUserStore } from '../../store/useUserStore';
+import useCartStore from '../../store/useCartStore';
+import { LoginSchema, LoginSchemaType } from '../../datas/index';
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(schema),
+  } = useForm<LoginSchemaType>({
+    resolver: zodResolver(LoginSchema),
   });
+  const setUser = useUserStore((state) => state.setUser);
+  const fetchCart = useCartStore((state) => state.fetchCart);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
+    setErrorMessage(null);
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log(data);
+    try {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (user) {
+        setUser(user);
+        fetchCart(user.id);
+        navigate('/');
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.message.includes('Invalid login credentials')) {
+        setErrorMessage('Invalid email or password. Please try again.');
+      } else {
+        setErrorMessage(error.message);
+      }
+      console.error(error);
+    }
   };
 
   return (
@@ -33,16 +59,19 @@ function LoginPage() {
       <Typography variant="h4" component="h1" gutterBottom>
         Login
       </Typography>
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          {...register('emailOrUsername')}
-          label="Email or Username"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register('email')}
+          label="Email"
           fullWidth
           margin="normal"
-          error={!!errors.emailOrUsername}
-          helperText={errors.emailOrUsername?.message}
+          error={!!errors.email}
+          helperText={errors.email?.message}
         />
         <TextField
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('password')}
           label="Password"
           type="password"
@@ -51,15 +80,10 @@ function LoginPage() {
           error={!!errors.password}
           helperText={errors.password?.message}
         />
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+        <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
       </form>
-      <Box mt={2}>
-        <Button onClick={() => navigate('/register')}>Create an account</Button>
-        <br />
-        <Button href="#">Forgot password?</Button>
-      </Box>
     </Box>
   );
 }

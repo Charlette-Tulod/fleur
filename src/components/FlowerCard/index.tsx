@@ -9,17 +9,20 @@ import {
   Box,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Product } from '../../datas/flowers';
+import { useCart } from '../../hooks/cartHooks/useCart';
 
 interface FlowerCardProps {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
+  product: Product;
 }
 
-function FlowerCard({ id, name, price, image }: FlowerCardProps) {
+function FlowerCard({ product }: FlowerCardProps) {
+  const { addToCart } = useCart();
+  if (!product) {
+    return null;
+  }
   return (
-    <Link to={`/flowers/${id}`}>
+    <Link to={`/flowers/${product.id}`}>
       <Card
         sx={{
           border: '1px solid #fff1f2',
@@ -32,16 +35,16 @@ function FlowerCard({ id, name, price, image }: FlowerCardProps) {
       >
         <CardMedia
           component="img"
-          image={image}
-          alt={name}
+          image={product.image}
+          alt={product.name}
           sx={{ height: '300px' }}
         />
         <CardContent>
           <Typography gutterBottom variant="subtitle1" component="div">
-            {name}
+            {product.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            ₱{price}
+            ₱{product.price}
           </Typography>
 
           <Box sx={{ mt: 3 }}>
@@ -49,6 +52,7 @@ function FlowerCard({ id, name, price, image }: FlowerCardProps) {
               size="small"
               variant="contained"
               color="primary"
+              onClick={() => addToCart(product)}
               sx={{
                 boxShadow: 'none',
                 mr: { xs: 0, sm: 2 },
