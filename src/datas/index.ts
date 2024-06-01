@@ -12,6 +12,7 @@ export const SignUpSchema = z.object({
     .regex(/^\d+$/, { message: 'Phone number must contain only digits' })
     .min(10, { message: 'Phone numbers are a minimum of 10 digits' })
     .max(12, { message: 'Phone numbers are a maximum of 12 digits' }),
+  address: z.string().trim().min(1, 'Address is required'),
 });
 
 export const LoginSchema = z.object({

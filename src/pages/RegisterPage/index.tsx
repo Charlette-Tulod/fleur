@@ -131,6 +131,7 @@ function SignUpPage() {
             email: data.email,
             name: data.name,
             phone: data.phone,
+            address: data.address,
           },
         ]);
 
@@ -193,6 +194,14 @@ function SignUpPage() {
           margin="normal"
           error={!!errors.phone}
           helperText={errors.phone?.message}
+        />
+        <TextField
+          label="Address"
+          inputProps={{ ...register('address') }}
+          fullWidth
+          margin="normal"
+          error={!!errors.address}
+          helperText={errors.address?.message}
         />
         <TextField
           label="Email"

@@ -7,7 +7,7 @@ export const fetchUserProfile = async (
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, name, phone, email, password')
+      .select('id, name, phone, email, password, address')
       .eq('id', userId)
       .single();
 

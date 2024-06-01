@@ -237,6 +237,7 @@ function ProfilePage() {
       await updateProfile(profile.id, {
         name: profile.name,
         phone: profile.phone,
+        address: profile.address,
       });
 
       setSuccessMessage('Profile updated successfully!');
@@ -279,6 +280,7 @@ function ProfilePage() {
           <CardContent>
             <Typography variant="h6">Name: {profile?.name}</Typography>
             <Typography variant="h6">Phone: {profile?.phone}</Typography>
+            <Typography variant="h6">Address: {profile?.address}</Typography>
             <Typography variant="h6">Email: {user.email}</Typography>
           </CardContent>
           <CardActions>
@@ -308,6 +310,18 @@ function ProfilePage() {
               setProfile((prevProfile) => ({
                 ...prevProfile!,
                 phone: e.target.value,
+              }))
+            }
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Address"
+            value={profile?.address || ''}
+            onChange={(e) =>
+              setProfile((prevProfile) => ({
+                ...prevProfile!,
+                address: e.target.value,
               }))
             }
             fullWidth
