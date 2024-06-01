@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import {
   AppBar,
@@ -10,26 +10,42 @@ import {
   IconButton,
   Badge,
   Button,
+  Typography,
 } from '@mui/material';
 import { ShoppingCart, AccountCircle } from '@mui/icons-material';
 import { IoMdMenu } from 'react-icons/io';
 import Logo from '../../assets/logo.png';
 import useUserAuth from '../../hooks/userHooks/useUserAuth';
 import useCartStore from '../../store/useCartStore';
+import { fetchUserProfile } from '../../services/userSupabaseService';
+import { User } from '../../datas/user';
 
 interface ActivationClassProps {
   isActive: boolean;
 }
+
 function NavigationBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { user, signOut } = useUserAuth();
   const cart = useCartStore((state) => state.cart);
+  const [profile, setProfile] = useState<User | null>(null);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  useEffect(() => {
+    if (user) {
+      const fetchProfileData = async () => {
+        const userData = await fetchUserProfile(user.id);
+        setProfile(userData);
+      };
+
+      fetchProfileData();
+    }
+  }, [user]);
 
   const activationClass = ({ isActive }: ActivationClassProps): string =>
     isActive
@@ -37,8 +53,8 @@ function NavigationBar() {
       : 'hover:lightrose hover:text-white rounded-md px-5 py-2';
 
   const renderCarts = () => (
-    <>
-      <IconButton component={Link} to="/cart" color="inherit">
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <IconButton component={Link} to="/cart" color="inherit" sx={{ mr: 4 }}>
         <Badge
           badgeContent={cart.reduce((acc, item) => acc + item.quantity, 0)}
           color="secondary"
@@ -47,10 +63,21 @@ function NavigationBar() {
         </Badge>
       </IconButton>
 
-      <IconButton color="inherit">
-        <AccountCircle />
-      </IconButton>
-    </>
+      {user ? (
+        <Typography
+          component={Link}
+          to="/profile"
+          variant="body1"
+          sx={{ ml: 1, mr: 2, textDecoration: 'none', color: 'inherit' }}
+        >
+          {profile?.name}
+        </Typography>
+      ) : (
+        <IconButton component={Link} to="/profile" color="inherit">
+          <AccountCircle />
+        </IconButton>
+      )}
+    </Box>
   );
 
   const renderLeftNavLinks = () => (
@@ -64,7 +91,6 @@ function NavigationBar() {
       <NavLink to="/about" className={activationClass}>
         About Us
       </NavLink>
-
       <NavLink to="/contact" className={activationClass}>
         Contact Us
       </NavLink>
@@ -120,29 +146,7 @@ function NavigationBar() {
               marginLeft: 0,
               width: 'auto',
             }}
-          >
-            {/* <Box
-              sx={{
-                padding: '0 16px',
-                height: '100%',
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Search />
-            </Box>
-            <InputBase
-              placeholder="Search for Items"
-              inputProps={{ 'aria-label': 'search' }}
-              sx={{
-                color: 'inherit',
-                paddingLeft: `calc(1em + 32px)`,
-                width: '100%',
-              }}
-            /> */}
-          </Box>
+          />
 
           <Box sx={{ marginLeft: 'auto', display: { xs: 'none', md: 'flex' } }}>
             <div style={{ flexGrow: 1 }} />
