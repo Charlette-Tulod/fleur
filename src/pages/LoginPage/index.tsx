@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Box, TextField, Button, Typography, Alert } from '@mui/material';
@@ -80,7 +79,7 @@ function LoginPage() {
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
         <TextField
-          {...register('email')}
+          inputProps={{ ...register('email') }}
           label="Email"
           fullWidth
           margin="normal"
@@ -88,7 +87,7 @@ function LoginPage() {
           helperText={errors.email?.message}
         />
         <TextField
-          {...register('password')}
+          inputProps={{ ...register('password') }}
           label="Password"
           type="password"
           fullWidth

@@ -76,6 +76,7 @@ const useCartStore = create<CartState>()(
           }
         }
       },
+
       removeFromCart: async (id) => {
         const {
           data: { session },
@@ -106,6 +107,7 @@ const useCartStore = create<CartState>()(
           toast.success('Item removed from cart', { position: 'bottom-left' });
         }
       },
+
       clearCart: async () => {
         const {
           data: { session },
@@ -134,6 +136,7 @@ const useCartStore = create<CartState>()(
           toast.success('Cart cleared', { position: 'bottom-left' });
         }
       },
+
       fetchCart: async (user_id) => {
         const { data, error } = await supabase
           .from('carts')
@@ -150,6 +153,7 @@ const useCartStore = create<CartState>()(
       resetCart: () => {
         set({ cart: [] });
       },
+
       updateCartItemQuantity: async (id, quantity) => {
         const {
           data: { session },

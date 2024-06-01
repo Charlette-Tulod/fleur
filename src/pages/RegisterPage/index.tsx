@@ -85,7 +85,7 @@
 
 // export default RegisterPage;
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Box, TextField, Button, Typography, Alert } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -171,7 +171,7 @@ function SignUpPage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           label="Email"
-          {...register('email')}
+          inputProps={{ ...register('email') }}
           fullWidth
           margin="normal"
           error={!!errors.email}
@@ -180,7 +180,7 @@ function SignUpPage() {
         <TextField
           label="Password"
           type="password"
-          {...register('password')}
+          inputProps={{ ...register('password') }}
           fullWidth
           margin="normal"
           error={!!errors.password}

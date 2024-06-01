@@ -12,9 +12,9 @@ import {
   TextField,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { useNavigate } from 'react-router-dom';
 import useCartStore from '../../store/useCartStore';
 
@@ -22,8 +22,6 @@ function CartPage() {
   const { cart, clearCart, removeFromCart, updateCartItemQuantity } =
     useCartStore();
   const navigate = useNavigate();
-  const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
-  const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -47,17 +45,8 @@ function CartPage() {
     removeFromCart(id);
   };
 
-  const handleEdit = (id: string) => {
-    setEditMode((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
   const handleQuantityChange = (id: string, quantity: number) => {
-    setQuantities((prev) => ({ ...prev, [id]: quantity }));
-  };
-
-  const handleSave = (id: string) => {
-    updateCartItemQuantity(id, quantities[id]);
-    setEditMode((prev) => ({ ...prev, [id]: false }));
+    updateCartItemQuantity(id, quantity);
   };
 
   return (
@@ -120,7 +109,6 @@ function CartPage() {
                   <Card
                     sx={{
                       display: 'flex',
-                      alignItems: 'center',
                       width: '100%',
                       backgroundColor: '#ffffff',
                     }}
@@ -146,52 +134,74 @@ function CartPage() {
                         >
                           {item.title}
                         </Typography>
-                        {editMode[item.id] ? (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <IconButton
+                            onClick={() =>
+                              handleQuantityChange(
+                                item.id,
+                                Math.max(1, item.quantity - 1)
+                              )
+                            }
+                          >
+                            <RemoveIcon sx={{ fontSize: '12px' }} />
+                          </IconButton>
                           <TextField
                             type="number"
-                            value={quantities[item.id] ?? item.quantity}
+                            size="small"
+                            value={item.quantity}
                             onChange={(e) =>
                               handleQuantityChange(
                                 item.id,
-                                parseInt(e.target.value, 10)
+                                Math.max(1, parseInt(e.target.value, 10))
                               )
                             }
                             inputProps={{ min: 1 }}
                             sx={{
-                              width: '60%',
-                              minWidth: 30,
-                              height: '20%',
-                              minHeight: 30,
-                              whiteSpace: 'nowrap',
+                              width: '40px',
+                              mx: 1,
+                              '& .MuiInputBase-input': {
+                                textAlign: 'center',
+                                padding: '5px 0',
+                                fontSize: '10px',
+                              },
                             }}
                           />
-                        ) : (
-                          <Typography variant="body2">
-                            Quantity: {item.quantity}
+                          <IconButton
+                            onClick={() =>
+                              handleQuantityChange(item.id, item.quantity + 1)
+                            }
+                          >
+                            <AddIcon sx={{ fontSize: '15px' }} />
+                          </IconButton>
+                        </Box>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          sx={{ mt: 1 }}
+                        >
+                          <Typography variant="body2" sx={{ mt: 1 }}>
+                            Price: ₱{item.price}
                           </Typography>
-                        )}
-                        <Typography variant="body2">
-                          Price: ₱{item.price}
-                        </Typography>
+                        </Box>
+                      </CardContent>
+                    </Box>
+                    <Box sx={{ textAlign: 'right' }}>
+                      <CardContent>
+                        <IconButton
+                          onClick={() => handleDelete(item.id)}
+                          sx={{ mb: 6 }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
                         <Typography variant="body2">
                           Subtotal: ₱{(item.price * item.quantity).toFixed(2)}
                         </Typography>
-                      </CardContent>
-                    </Box>
-                    <Box>
-                      <CardContent>
-                        <IconButton onClick={() => handleDelete(item.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                        {editMode[item.id] ? (
-                          <IconButton onClick={() => handleSave(item.id)}>
-                            <SaveIcon />
-                          </IconButton>
-                        ) : (
-                          <IconButton onClick={() => handleEdit(item.id)}>
-                            <EditIcon />
-                          </IconButton>
-                        )}
                       </CardContent>
                     </Box>
                   </Card>
