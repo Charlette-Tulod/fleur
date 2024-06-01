@@ -234,7 +234,7 @@ function CartPage() {
                   ml: 2,
                 }}
               >
-                Checkout
+                Order Now
               </Button>
             </Box>
           </>

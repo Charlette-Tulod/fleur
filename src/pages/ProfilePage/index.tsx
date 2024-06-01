@@ -1,128 +1,339 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { TextField, Button, Box, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+// import {
+//   Box,
+//   TextField,
+//   Button,
+//   Typography,
+//   Alert,
+//   Card,
+//   CardContent,
+//   CardActions,
+//   IconButton,
+// } from '@mui/material';
+// import { Edit as EditIcon } from '@mui/icons-material';
 
-import supabase from '../../config/supabaseClient';
-import useUserStore from '../../store/useUserStore';
+// import supabase from '../../config/supabaseClient';
+// import { useUserStore } from '../../store/useUserStore';
 
-const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  phone: z.string().min(1, 'Phone is required'),
-  username: z.string().min(1, 'Username is required'),
-  email: z.string().email('Invalid email address').min(1, 'Email is required'),
-});
+// function ProfilePage() {
+//   const { user } = useUserStore((state) => ({
+//     user: state.user,
+//     setUser: state.setUser,
+//     clearUser: state.clearUser,
+//   }));
+//   // Initialize useNavigate hook
+//   const [profile, setProfile] = useState<{
+//     name: string;
+//     phone: string;
+//   } | null>(null);
+//   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+//   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+//   const [isEditMode, setIsEditMode] = useState(false);
 
-type ProfileFormInputs = z.infer<typeof schema>;
+//   useEffect(() => {
+//     if (user) {
+//       // Fetch additional user info from Supabase
+//       const fetchProfile = async () => {
+//         const { data, error } = await supabase
+//           .from('profiles')
+//           .select('name, phone')
+//           .eq('id', user.id)
+//           .single();
+
+//         if (data) {
+//           setProfile({ name: data.name, phone: data.phone });
+//         }
+
+//         if (error) {
+//           // console.error('Fetch Profile Error:', error);
+//           setErrorMessage(
+//             error instanceof Error ? error.message : String(error)
+//           );
+//         }
+//       };
+
+//       fetchProfile();
+//     }
+//   }, [user]);
+
+//   const updateProfile = async () => {
+//     setErrorMessage(null);
+//     setSuccessMessage(null);
+
+//     try {
+//       const formData = {
+//         name: profile?.name || '',
+//         phone: profile?.phone || '',
+//       };
+
+//       const { error } = await supabase
+//         .from('profiles')
+//         .update(formData)
+//         .eq('id', user?.id);
+
+//       if (error) {
+//         throw new Error(error.message as string); // Explicitly cast error.message to string
+//       } else {
+//         setSuccessMessage('Profile updated successfully!');
+//         setIsEditMode(false);
+//       }
+//     } catch (error) {
+//       // console.error('Error updating profile:', error);
+//       setErrorMessage(error instanceof Error ? error.message : String(error));
+//     }
+//   };
+
+//   if (!user) {
+//     return <Typography>You need to be logged in to view this page.</Typography>;
+//   }
+
+//   return (
+//     <Box
+//       sx={{
+//         maxWidth: 400,
+//         mx: 'auto',
+//         mt: 5,
+//         p: 3,
+//         boxShadow: 2,
+//         borderRadius: 2,
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//       }}
+//     >
+//       <Typography
+//         variant="h4"
+//         fontWeight="bold"
+//         color="customColors.brown"
+//         gutterBottom
+//       >
+//         Profile
+//       </Typography>
+//       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+//       {successMessage && <Alert severity="success">{successMessage}</Alert>}
+//       {!isEditMode ? (
+//         <Card>
+//           <CardContent>
+//             <Typography variant="h6">Name: {profile?.name}</Typography>
+//             <Typography variant="h6">Phone: {profile?.phone}</Typography>
+//             <Typography variant="h6">Email: {user.email}</Typography>
+//           </CardContent>
+//           <CardActions>
+//             <IconButton onClick={() => setIsEditMode(true)}>
+//               <EditIcon />
+//             </IconButton>
+//           </CardActions>
+//         </Card>
+//       ) : (
+//         <Box>
+//           <TextField
+//             label="Name"
+//             value={profile?.name || ''}
+//             onChange={(e) =>
+//               setProfile((prev) => ({
+//                 ...prev!,
+//                 name: e.target.value,
+//               }))
+//             }
+//             fullWidth
+//             margin="normal"
+//           />
+//           <TextField
+//             label="Phone"
+//             value={profile?.phone || ''}
+//             onChange={(e) =>
+//               setProfile((prev) => ({
+//                 ...prev!,
+//                 phone: e.target.value,
+//               }))
+//             }
+//             fullWidth
+//             margin="normal"
+//           />
+
+//           <Button
+//             onClick={updateProfile}
+//             variant="contained"
+//             color="primary"
+//             sx={{ mt: 3 }}
+//             fullWidth
+//           >
+//             Update Profile
+//           </Button>
+//           <Button
+//             onClick={() => setIsEditMode(false)}
+//             variant="contained"
+//             color="secondary"
+//             sx={{ mt: 3 }}
+//             fullWidth
+//           >
+//             Cancel
+//           </Button>
+//         </Box>
+//       )}
+//     </Box>
+//   );
+// }
+
+// export default ProfilePage;
+
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Card,
+  CardContent,
+  CardActions,
+  IconButton,
+} from '@mui/material';
+import { Edit as EditIcon } from '@mui/icons-material';
+
+import {
+  fetchUserProfile,
+  updateProfile,
+} from '../../services/userSupabaseService';
+import { useUserStore } from '../../store/useUserStore';
+import { User } from '../../datas/user'; // Adjust the path based on your project structure
 
 function ProfilePage() {
-  const { user, setUser } = useUserStore();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProfileFormInputs>({
-    resolver: zodResolver(schema),
-    defaultValues: user || {},
-  });
-  const navigate = useNavigate();
+  const { user } = useUserStore((state) => ({
+    user: state.user,
+    setUser: state.setUser,
+    clearUser: state.clearUser,
+  }));
+  const [profile, setProfile] = useState<User | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
-  const onUpdateProfile: SubmitHandler<ProfileFormInputs> = async (data) => {
-    if (!user) return;
+  useEffect(() => {
+    if (user) {
+      // Fetch additional user info from Supabase
+      const fetchProfileData = async () => {
+        try {
+          const userData = await fetchUserProfile(user.id);
+          setProfile(userData);
+        } catch (error) {
+          setErrorMessage(
+            error instanceof Error ? error.message : String(error)
+          );
+        }
+      };
 
-    const { data: updatedUserData, error } = await supabase
-      .from('users')
-      .update(data)
-      .eq('id', user.id)
-      .single();
-
-    if (error) {
-      console.error(error.message);
-      return;
+      fetchProfileData();
     }
+  }, [user]);
 
-    setUser(updatedUserData);
-    // Optionally show a success message or navigate to another page
+  const handleUpdateProfile = async () => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    if (!profile) return;
+
+    try {
+      await updateProfile(profile.id, {
+        name: profile.name,
+        phone: profile.phone,
+      });
+
+      setSuccessMessage('Profile updated successfully!');
+      setIsEditMode(false);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : String(error));
+    }
   };
 
-  const onDeleteAccount = async () => {
-    if (!user) return;
-
-    const { error } = await supabase.from('users').delete().eq('id', user.id);
-
-    if (error) {
-      console.error(error.message);
-      return;
-    }
-
-    // Perform any necessary cleanup or redirect to a different page
-    setUser(null);
-    navigate('/'); // Redirect to home page or login page
-  };
-
-  const onLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      console.error(error.message);
-      return;
-    }
-
-    setUser(null);
-    navigate('/login'); // Redirect to login page after logout
-  };
+  if (!user) {
+    return <Typography>You need to be logged in to view this page.</Typography>;
+  }
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box
+      sx={{
+        maxWidth: 400,
+        mx: 'auto',
+        mt: 5,
+        p: 3,
+        boxShadow: 2,
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        color="customColors.brown"
+        gutterBottom
+      >
         Profile
       </Typography>
-      <form onSubmit={handleSubmit(onUpdateProfile)}>
-        <TextField
-          {...register('name')}
-          label="Name"
-          fullWidth
-          margin="normal"
-          error={!!errors.name}
-          helperText={errors.name?.message}
-        />
-        <TextField
-          {...register('phone')}
-          label="Phone"
-          fullWidth
-          margin="normal"
-          error={!!errors.phone}
-          helperText={errors.phone?.message}
-        />
-        <TextField
-          {...register('username')}
-          label="Username"
-          fullWidth
-          margin="normal"
-          error={!!errors.username}
-          helperText={errors.username?.message}
-        />
-        <TextField
-          {...register('email')}
-          label="Email"
-          fullWidth
-          margin="normal"
-          error={!!errors.email}
-          helperText={errors.email?.message}
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          Update Profile
-        </Button>
-      </form>
-      <Box mt={2}>
-        <Button onClick={onDeleteAccount} variant="outlined" color="error">
-          Delete Account
-        </Button>
-        <br />
-        <Button onClick={onLogout}>Logout</Button>
-      </Box>
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+      {successMessage && <Alert severity="success">{successMessage}</Alert>}
+      {!isEditMode ? (
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Name: {profile?.name}</Typography>
+            <Typography variant="h6">Phone: {profile?.phone}</Typography>
+            <Typography variant="h6">Email: {user.email}</Typography>
+          </CardContent>
+          <CardActions>
+            <IconButton onClick={() => setIsEditMode(true)}>
+              <EditIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
+      ) : (
+        <Box>
+          <TextField
+            label="Name"
+            value={profile?.name || ''}
+            onChange={(e) =>
+              setProfile((prevProfile) => ({
+                ...prevProfile!,
+                name: e.target.value,
+              }))
+            }
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Phone"
+            value={profile?.phone || ''}
+            onChange={(e) =>
+              setProfile((prevProfile) => ({
+                ...prevProfile!,
+                phone: e.target.value,
+              }))
+            }
+            fullWidth
+            margin="normal"
+          />
+
+          <Button
+            onClick={handleUpdateProfile}
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3 }}
+            fullWidth
+          >
+            Update Profile
+          </Button>
+          <Button
+            onClick={() => setIsEditMode(false)}
+            variant="contained"
+            color="secondary"
+            sx={{ mt: 3 }}
+            fullWidth
+          >
+            Cancel
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
