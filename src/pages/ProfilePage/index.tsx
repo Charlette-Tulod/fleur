@@ -187,9 +187,10 @@ import {
   Card,
   CardContent,
   CardActions,
-  IconButton,
+  CardMedia,
 } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+
+import Image1 from '../../assets/image9.webp';
 
 import {
   fetchUserProfile,
@@ -254,17 +255,17 @@ function ProfilePage() {
   return (
     <Box
       sx={{
-        maxWidth: 400,
+        maxWidth: 'md',
         mx: 'auto',
         mt: 5,
-        p: 3,
-        boxShadow: 2,
+        mb: 5,
         borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
     >
+      <Box />
       <Typography
         variant="h4"
         fontWeight="bold"
@@ -276,21 +277,61 @@ function ProfilePage() {
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       {successMessage && <Alert severity="success">{successMessage}</Alert>}
       {!isEditMode ? (
-        <Card>
-          <CardContent>
-            <Typography variant="h6">Name: {profile?.name}</Typography>
-            <Typography variant="h6">Phone: {profile?.phone}</Typography>
-            <Typography variant="h6">Address: {profile?.address}</Typography>
-            <Typography variant="h6">Email: {user.email}</Typography>
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: 'center',
+            p: 2,
+          }}
+        >
+          <CardMedia
+            component="img"
+            image={Image1}
+            sx={{ height: '200px', objectFit: 'contain' }}
+          />
+          <CardContent sx={{ width: '100%' }}>
+            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+              Name: {profile?.name}
+            </Typography>
+
+            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+              Phone: {profile?.phone}
+            </Typography>
+
+            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+              Address: {profile?.address}
+            </Typography>
+
+            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+              Email: {user.email}
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                mt: 2,
+              }}
+            >
+              <CardActions>
+                <Button
+                  onClick={() => setIsEditMode(true)}
+                  variant="contained"
+                  size="small"
+                >
+                  Edit Profile
+                </Button>
+              </CardActions>
+            </Box>
           </CardContent>
-          <CardActions>
-            <IconButton onClick={() => setIsEditMode(true)}>
-              <EditIcon />
-            </IconButton>
-          </CardActions>
         </Card>
       ) : (
-        <Box>
+        <Box
+          sx={{
+            maxWidth: '400px',
+          }}
+        >
           <TextField
             label="Name"
             value={profile?.name || ''}
