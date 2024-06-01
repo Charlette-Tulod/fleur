@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Box, TextField, Button, Typography, Alert } from '@mui/material';
@@ -43,7 +44,6 @@ function LoginPage() {
         fetchCart(user.id);
         navigate('/');
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.message.includes('Invalid login credentials')) {
         setErrorMessage('Invalid email or password. Please try again.');
