@@ -10,6 +10,7 @@ import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CartPage from './pages/CartPage';
+import ProfilePage from './pages/ProfilePage';
 import SuccessOrder from './pages/SuccessOrder';
 import useAuth from './hooks/userHooks/useUserAuth';
 import useCartStore from './store/useCartStore';
@@ -49,7 +50,7 @@ function App() {
         <Route path="/ordersuccess" element={<SuccessOrder />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
-
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />
