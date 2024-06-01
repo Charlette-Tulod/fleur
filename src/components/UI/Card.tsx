@@ -1,4 +1,3 @@
-// CustomCard.jsx
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '@mui/material';

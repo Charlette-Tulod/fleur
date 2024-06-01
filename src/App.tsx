@@ -47,10 +47,24 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/ordersuccess" element={<SuccessOrder />} />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ordersuccess"
+          element={
+            <PrivateRoute>
+              <SuccessOrder />
+            </PrivateRoute>
+          }
+        />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />
