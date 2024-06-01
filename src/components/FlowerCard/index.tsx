@@ -1,15 +1,9 @@
 import { Link } from 'react-router-dom';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Box,
-} from '@mui/material';
+import { CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 
 import { Product } from '../../datas/flowers';
 import { useCart } from '../../hooks/cartHooks/useCart';
+import CustomCard from '../UI/Card';
 
 interface FlowerCardProps {
   product: Product;
@@ -22,16 +16,7 @@ function FlowerCard({ product }: FlowerCardProps) {
   }
   return (
     <Link to={`/flowers/${product.id}`}>
-      <Card
-        sx={{
-          border: '1px solid #fff1f2',
-          boxShadow: 'none',
-          transition: 'box-shadow 0.3s ease',
-          '&:hover': {
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          },
-        }}
-      >
+      <CustomCard>
         <CardMedia
           component="img"
           image={product.image}
@@ -65,7 +50,7 @@ function FlowerCard({ product }: FlowerCardProps) {
             </Button>
           </Box>
         </CardContent>
-      </Card>
+      </CustomCard>
     </Link>
   );
 }
