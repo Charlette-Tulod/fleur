@@ -1,5 +1,5 @@
 import supabase from '../config/supabaseClient';
-import { Product } from '../datas/flowers';
+import { Product } from '../models/flowers';
 
 // Function to fetch flowers by category
 export const fetchFlowersByCategory = async (

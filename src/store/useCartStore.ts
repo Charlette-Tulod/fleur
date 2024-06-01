@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { toast } from 'react-toastify';
 import supabase from '../config/supabaseClient';
-import { CartItem } from '../datas/cart';
-import { Product } from '../datas/flowers';
+import { CartItem } from '../models/cart';
+import { Product } from '../models/flowers';
 
 interface CartState {
   cart: CartItem[];

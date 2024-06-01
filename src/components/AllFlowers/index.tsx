@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Button, Typography, Grid } from '@mui/material';
 import FlowerCard from '../FlowerCard';
-// import useFlowersByCategory from '../../hooks/flowersHooks/useFlowersByCategory';
-// import { useAllFlowers } from '../../hooks/flowersHooks/useAllFlowers';
 import {
   useAllFlowers,
   useFlowersByCategory,

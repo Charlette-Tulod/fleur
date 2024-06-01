@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
 import { useUserStore } from '../../store/useUserStore';
 import useCartStore from '../../store/useCartStore';
-import { LoginSchema, LoginSchemaType } from '../../datas/index';
+import { LoginSchema, LoginSchemaType } from '../../schema/index';
 
 function LoginPage() {
   const navigate = useNavigate();

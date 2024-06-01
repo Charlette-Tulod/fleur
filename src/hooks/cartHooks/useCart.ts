@@ -1,5 +1,5 @@
 import useCartStore from '../../store/useCartStore';
-import { Product } from '../../datas/flowers';
+import { Product } from '../../models/flowers';
 
 export const useCart = () => {
   const addToCart = useCartStore((state) => state.addToCart);

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 
-import { Product } from '../../datas/flowers';
+import { Product } from '../../models/flowers';
 import { useCart } from '../../hooks/cartHooks/useCart';
 import CustomCard from '../UI/Card';
 

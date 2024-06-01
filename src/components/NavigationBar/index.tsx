@@ -18,7 +18,7 @@ import Logo from '../../assets/logo.png';
 import useUserAuth from '../../hooks/userHooks/useUserAuth';
 import useCartStore from '../../store/useCartStore';
 import { fetchUserProfile } from '../../services/userSupabaseService';
-import { User } from '../../datas/user';
+import { User } from '../../models/user';
 
 interface ActivationClassProps {
   isActive: boolean;

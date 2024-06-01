@@ -5,7 +5,7 @@ import {
   fetchAllFlowers,
 } from '../../services/flowersSupabaseService';
 
-import { Product } from '../../datas/flowers';
+import { Product } from '../../models/flowers';
 
 export const useAllFlowers = (options?: UseQueryOptions<Product[], Error>) => {
   return useQuery<Product[], Error>({

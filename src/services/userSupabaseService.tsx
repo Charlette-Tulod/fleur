@@ -1,5 +1,5 @@
 import supabase from '../config/supabaseClient';
-import { User } from '../datas/user'; // Assuming you have defined types/interfaces in a separate file
+import { User } from '../models/user'; // Assuming you have defined types/interfaces in a separate file
 
 export const fetchUserProfile = async (
   userId: string
