@@ -13,8 +13,6 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 import { useNavigate } from 'react-router-dom';
 import useCartStore from '../../store/useCartStore';
 
@@ -140,16 +138,6 @@ function CartPage() {
                             alignItems: 'center',
                           }}
                         >
-                          <IconButton
-                            onClick={() =>
-                              handleQuantityChange(
-                                item.id,
-                                Math.max(1, item.quantity - 1)
-                              )
-                            }
-                          >
-                            <RemoveIcon sx={{ fontSize: '12px' }} />
-                          </IconButton>
                           <TextField
                             type="number"
                             size="small"
@@ -162,22 +150,15 @@ function CartPage() {
                             }
                             inputProps={{ min: 1 }}
                             sx={{
-                              width: '40px',
+                              width: '80px',
                               mx: 1,
                               '& .MuiInputBase-input': {
                                 textAlign: 'center',
                                 padding: '5px 0',
-                                fontSize: '10px',
+                                fontSize: '14px',
                               },
                             }}
                           />
-                          <IconButton
-                            onClick={() =>
-                              handleQuantityChange(item.id, item.quantity + 1)
-                            }
-                          >
-                            <AddIcon sx={{ fontSize: '15px' }} />
-                          </IconButton>
                         </Box>
                         <Box
                           display="flex"
